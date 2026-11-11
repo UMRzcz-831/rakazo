@@ -1,0 +1,27 @@
+{
+  "scope": "English local interaction prototype only",
+  "live_agent_tested": false,
+  "native_mobile_app_tested": false,
+  "data": "fictional fixtures",
+  "status": "passed",
+  "checks": [
+    "launch approval, continued chat and local demo-state reload",
+    "execution completion precedes result availability; result expands",
+    "offline stop remains pending until host confirmation, with stable task identity",
+    "later-scope write request preview, denial and approval",
+    "empty message validation",
+    "English UI: no horizontal overflow at 320px across five scenarios",
+    "English UI: no horizontal overflow at 390px across five scenarios",
+    "English UI: no horizontal overflow at 736px across five scenarios",
+    "English UI: no horizontal overflow at 1024px across five scenarios",
+    "dark appearance and native keyboard focus"
+  ],
+  "page_errors": [],
+  "screenshots": [
+    "launch-approval.png",
+    "mobile-result.png",
+    "offline-stop.png",
+    "result.png",
+    "write-approval.png"
+  ]
+}

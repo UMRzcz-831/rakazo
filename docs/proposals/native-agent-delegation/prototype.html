@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>Rakazo Native-agent delegation · Interaction design</title><style>:root{color-scheme:light dark}body{margin:0;padding:24px;background:light-dark(#fafafa,#111);color:light-dark(#202020,#ededed)}.prototype-document{max-width:1024px;margin:0 auto}.cursor-interaction{cursor:pointer}@media(max-width:560px){body{padding:12px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}</style>
+<script>
+(() => {
+  let saved=null;
+  const key='rakazo-native-interaction-demo-en-v1';
+  try{saved=JSON.parse(localStorage.getItem(key)||'null')}catch{}
+  window.openai={widgetState:saved,setWidgetState:async function(value){this.widgetState=value;try{localStorage.setItem(key,JSON.stringify(value))}catch{}}};
+})();
+</script></head><body><div class="prototype-document">
+<style>
+#rakazo-native-preview{--rp-bg:light-dark(#ffffff,#171717);--rp-soft:light-dark(#f5f5f5,#242424);--rp-ink:light-dark(#202020,#ededed);--rp-muted:light-dark(#626262,#ababab);--rp-line:light-dark(#dedede,#414141);--rp-active:light-dark(#222222,#ededed);--rp-active-ink:light-dark(#ffffff,#171717);--rp-warn:light-dark(#835000,#e6b666);--rp-ok:light-dark(#236444,#88c6a4);--rp-error:light-dark(#a62e2e,#f09a9a);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans CJK SC",sans-serif;color:var(--rp-ink);font-size:14px;line-height:1.6;width:100%;box-sizing:border-box}
+#rakazo-native-preview *{box-sizing:border-box}
+#rakazo-native-preview [hidden]{display:none!important}
+#rakazo-native-preview button,#rakazo-native-preview select,#rakazo-native-preview textarea{font:inherit;color:inherit}
+#rakazo-native-preview .rp-lab{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:14px;padding-right:90px}
+#rakazo-native-preview .rp-lab label{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#rakazo-native-preview .rp-caption{color:var(--rp-muted);font-size:12px}
+#rakazo-native-preview .rp-select{background:var(--rp-bg);border:1px solid var(--rp-line);border-radius:8px;padding:7px 28px 7px 10px;max-width:100%}
+#rakazo-native-preview .rp-app{background:var(--rp-bg);border:1px solid var(--rp-line);border-radius:14px;overflow:clip}
+#rakazo-native-preview .rp-header{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--rp-line)}
+#rakazo-native-preview .rp-brand{font-weight:600;letter-spacing:-.02em;font-size:16px}
+#rakazo-native-preview .rp-header .rp-context{color:var(--rp-muted);margin-left:auto}
+#rakazo-native-preview .rp-stage{max-width:760px;margin:0 auto;padding:26px 26px 12px;min-height:410px}
+#rakazo-native-preview .rp-user{max-width:85%;width:fit-content;margin-left:auto;background:var(--rp-soft);border-radius:14px;padding:12px 16px;margin-bottom:24px;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-agent-label{font-size:12px;color:var(--rp-muted);margin:0 0 8px}
+#rakazo-native-preview .rp-intro{margin:0 0 16px}
+#rakazo-native-preview .rp-task{border:1px solid var(--rp-line);border-radius:12px;padding:17px 18px;max-width:100%}
+#rakazo-native-preview .rp-task-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+#rakazo-native-preview .rp-title{font-size:15px;font-weight:600;margin:0;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-state{font-size:12px;white-space:normal;max-width:100%;display:flex;align-items:center;gap:6px;font-weight:500}
+#rakazo-native-preview .rp-state::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+#rakazo-native-preview .rp-state[data-tone="warning"]{color:var(--rp-warn)}
+#rakazo-native-preview .rp-state[data-tone="success"]{color:var(--rp-ok)}
+#rakazo-native-preview .rp-state[data-tone="error"]{color:var(--rp-error)}
+#rakazo-native-preview .rp-meta{color:var(--rp-muted);font-size:12px;margin:5px 0 12px;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-copy{margin:10px 0 0;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:14px}
+#rakazo-native-preview .rp-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--rp-bg);border:1px solid var(--rp-line);border-radius:8px;padding:7px 12px;min-height:36px;text-decoration:none;max-width:100%}
+#rakazo-native-preview .rp-btn:hover:not(:disabled){background:var(--rp-soft)}
+#rakazo-native-preview .rp-btn-primary{background:var(--rp-active);color:var(--rp-active-ink);border-color:var(--rp-active)}
+#rakazo-native-preview .rp-btn-primary:hover:not(:disabled){opacity:.88;background:var(--rp-active)}
+#rakazo-native-preview .rp-btn:disabled{opacity:.5;cursor:not-allowed}
+#rakazo-native-preview .rp-btn-text{background:transparent;border-color:transparent;padding-left:0;padding-right:0;text-decoration:underline;text-underline-offset:3px}
+#rakazo-native-preview .rp-info{display:grid;grid-template-columns:78px minmax(0,1fr);gap:5px 12px;margin:12px 0 0}
+#rakazo-native-preview .rp-info dt{color:var(--rp-muted)}
+#rakazo-native-preview .rp-info dd{margin:0;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-divider{border:0;border-top:1px solid var(--rp-line);margin:14px 0}
+#rakazo-native-preview .rp-detail{margin-top:12px;border-top:1px solid var(--rp-line);padding-top:10px;font-size:12px}
+#rakazo-native-preview .rp-detail summary{width:fit-content;color:var(--rp-muted);padding:4px 0}
+#rakazo-native-preview .rp-detail ul{padding-left:18px;margin:8px 0}
+#rakazo-native-preview .rp-detail li{margin:4px 0;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-result{margin-top:18px}
+#rakazo-native-preview .rp-result p{margin:8px 0}
+#rakazo-native-preview code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+#rakazo-native-preview .rp-file{padding:9px 0;border-bottom:1px solid var(--rp-line)}
+#rakazo-native-preview .rp-file:last-child{border-bottom:0}
+#rakazo-native-preview .rp-file span{display:block;color:var(--rp-muted);font-size:12px}
+#rakazo-native-preview .rp-compose{margin:22px auto 0;max-width:708px;padding:0 0 18px}
+#rakazo-native-preview .rp-compose label{display:block;color:var(--rp-muted);font-size:12px;margin-bottom:6px}
+#rakazo-native-preview .rp-input-box{border:1px solid var(--rp-line);border-radius:12px;padding:10px 12px;background:var(--rp-bg)}
+#rakazo-native-preview textarea{display:block;width:100%;resize:vertical;min-height:54px;background:transparent;border:0;padding:3px 0;caret-color:var(--rp-ink)}
+#rakazo-native-preview .rp-compose-foot{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:6px;flex-wrap:wrap}
+#rakazo-native-preview .rp-input-error{color:var(--rp-error);margin:6px 0 0}
+#rakazo-native-preview .rp-chat-note{margin-top:18px}
+#rakazo-native-preview .rp-simulation{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}
+#rakazo-native-preview .rp-simulation-actions{display:flex;gap:12px;flex-wrap:wrap}
+#rakazo-native-preview ::selection{background:var(--rp-active);color:var(--rp-active-ink)}
+@media(max-width:560px){#rakazo-native-preview .rp-lab{padding-right:0;display:block}#rakazo-native-preview .rp-lab>.rp-caption{display:block;margin-bottom:8px}#rakazo-native-preview .rp-header{padding:13px 15px}#rakazo-native-preview .rp-header .rp-context{display:none}#rakazo-native-preview .rp-stage{padding:20px 14px 8px;min-height:380px}#rakazo-native-preview .rp-task{padding:14px}#rakazo-native-preview .rp-user{max-width:94%}#rakazo-native-preview .rp-compose{margin:20px 14px 0}#rakazo-native-preview .rp-info{grid-template-columns:66px minmax(0,1fr);gap:5px 8px}#rakazo-native-preview textarea{font-size:16px}#rakazo-native-preview .rp-btn,#rakazo-native-preview .rp-select{min-height:44px}}
+@media(prefers-reduced-motion:no-preference){#rakazo-native-preview .rp-btn{transition:opacity .15s ease}}
+</style>
+<div id="rakazo-native-preview" aria-label="Rakazo Native-agent delegation interaction prototype">
+  <div class="rp-lab">
+    <span class="rp-caption">Design mockup · No live device connection</span>
+    <label for="rp-scenario">Scenario <select id="rp-scenario" class="rp-select cursor-interaction">
+      <option value="normal">Normal analysis · First increment</option>
+      <option value="offline">Connection recovery · First increment</option>
+      <option value="stop">Stop a task · First increment</option>
+      <option value="sync">Result pending · First increment</option>
+      <option value="write">Write approval · Later increment</option>
+    </select></label>
+  </div>
+  <section class="rp-app" aria-label="Project assistant conversation">
+    <header class="rp-header"><span class="rp-brand">Rakazo</span><span aria-hidden="true">/</span><span>Project assistant</span><span class="rp-context">Private conversation</span></header>
+    <main class="rp-stage">
+      <div class="rp-user" id="rp-user-message">Check why Project A fails to start. Inspect its startup configuration without changing any files.</div>
+      <p class="rp-agent-label">Project assistant</p>
+      <p class="rp-intro" id="rp-intro">Codex can inspect the project on your development machine and return the result here.</p>
+      <article class="rp-task" aria-label="Remote task">
+        <div class="rp-task-head"><h2 class="rp-title">Inspect project startup configuration</h2><span class="rp-state" id="rp-state" role="status" aria-live="polite">Ready</span></div>
+        <p class="rp-meta" id="rp-meta">Development machine · Project A · Codex · Read-only</p>
+        <div id="rp-task-content"></div>
+        <div class="rp-actions" id="rp-task-actions"></div>
+        <details class="rp-detail" id="rp-details"><summary class="cursor-interaction">Task details</summary><div id="rp-detail-content"></div></details>
+      </article>
+      <section class="rp-result" id="rp-result" aria-label="Analysis result" hidden></section>
+      <div class="rp-chat-note" id="rp-chat-note" aria-live="polite" hidden></div>
+    </main>
+    <form class="rp-compose" id="rp-compose">
+      <label for="rp-message" id="rp-message-label">Continue chatting with Project assistant</label>
+      <div class="rp-input-box"><textarea id="rp-message" rows="2" placeholder="Add a message…"></textarea><div class="rp-compose-foot"><span class="rp-caption" id="rp-compose-note">You can keep chatting while the task runs</span><button class="rp-btn cursor-interaction" type="submit">Send message</button></div></div>
+      <p class="rp-input-error" id="rp-input-error" role="alert" hidden>Enter a message before sending.</p>
+    </form>
+  </section>
+  <div class="rp-simulation" aria-label="Prototype simulation controls, not product features">
+    <span class="rp-caption" id="rp-sim-note">Use the controls below to simulate task events</span>
+    <div class="rp-simulation-actions"><button id="rp-step" class="rp-btn cursor-interaction" type="button" disabled>Waiting for user action</button><button id="rp-restart" class="rp-btn rp-btn-text cursor-interaction" type="button">Restart demo</button></div>
+  </div>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('rakazo-native-preview');
+  const $ = (id) => root.querySelector('#' + id);
+  const phases = ['ready','launchApproval','running','offline','cancelling','cancelled','syncing','complete','writeApproval','writing','denied','failed'];
+  const scenarios = ['normal','offline','stop','sync','write'];
+  let state = {version:1,scenario:'normal',phase:'ready',connected:true,job:42,details:false,resultOpen:false,chat:''};
+  const view = {detailsByDefault:false};
+  const escape = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function restore(value) {
+    const saved = value && value.privateContent;
+    if (!saved || saved.version !== 1 || !phases.includes(saved.phase) || !scenarios.includes(saved.scenario)) return;
+    state = {...state, scenario:saved.scenario,phase:saved.phase,connected:saved.connected!==false,job:Number.isInteger(saved.job)&&saved.job>0?saved.job:42,details:!!saved.details,resultOpen:!!saved.resultOpen,chat:typeof saved.chat==='string'?saved.chat.slice(0,500):''};
+  }
+  function save() {
+    const api = window.openai;
+    if (api && api.setWidgetState) Promise.resolve(api.setWidgetState({modelContent:{prototype:'native-agent-delegation',scenario:state.scenario,phase:state.phase},privateContent:{...state}})).catch(()=>{});
+  }
+  function change(phase) { state.phase=phase; state.resultOpen=false; render(); save(); }
+  function action(label, fn, primary=false) {
+    const b=document.createElement('button');b.type='button';b.className='rp-btn cursor-interaction'+(primary?' rp-btn-primary':'');b.textContent=label;
+    b.addEventListener('click',fn);$('rp-task-actions').append(b);
+  }
+  function preset(name) {
+    state={...state,scenario:name,phase:({normal:'ready',offline:'offline',stop:'running',sync:'syncing',write:'writeApproval'})[name],connected:name!=='offline',details:false,resultOpen:false,chat:''};
+    $('rp-message').value='';$('rp-input-error').hidden=true;render();save();
+  }
+  function render() {
+    const p=state.phase, write=state.scenario==='write';
+    $('rp-scenario').value=state.scenario;
+    $('rp-user-message').textContent=write?'Fix the startup instructions for Project A. Ask me before making changes.':'Check why Project A fails to start. Inspect its startup configuration without changing any files.';
+    $('rp-intro').textContent=write?'Codex has identified a documentation change and is waiting for approval of this specific edit.':'I will track the task and report back in this conversation.';
+    $('rp-meta').textContent='Development machine · Project A · Codex · '+(write?'Workspace writes':'Read-only');
+    const labels={ready:'Ready',launchApproval:'Awaiting confirmation',running:'Running',offline:'Connection lost',cancelling:'Stopping',cancelled:'Stopped',syncing:'Execution finished · Result pending',complete:'Finished',writeApproval:'Awaiting approval',writing:'Editing',denied:'Denied',failed:'Failed'};
+    $('rp-state').textContent=labels[p];
+    $('rp-state').dataset.tone=['offline','cancelling','syncing','writeApproval','launchApproval'].includes(p)?'warning':p==='complete'?'success':p==='failed'?'error':'neutral';
+    const content=$('rp-task-content'); const actions=$('rp-task-actions');actions.replaceChildren();
+    $('rp-result').hidden=true;
+    if(p==='ready') {
+      content.innerHTML='<p class="rp-copy">Inspect startup scripts and configuration in the registered project without changing files.</p>';
+      action('Delegate to Codex',()=>change('launchApproval'),true);
+    } else if(p==='launchApproval') {
+      content.innerHTML='<p class="rp-copy">Allow this read-only analysis on the development machine?</p><dl class="rp-info"><dt>Workspace</dt><dd>Project A</dd><dt>Can read</dt><dd>Authorized project files</dd><dt>File changes</dt><dd>Not allowed</dd></dl>';
+      action('Allow this analysis',()=>change('running'),true); action('Deny',()=>change('denied'));
+    } else if(p==='running'||p==='writing') {
+      content.innerHTML='<p class="rp-copy">'+(p==='writing'?'This edit was approved. Codex is updating the startup instructions.':'Checking startup scripts and environment configuration. You can keep chatting.')+'</p>';
+      action('Stop task',()=>change('cancelling'));
+    } else if(p==='offline') {
+      content.innerHTML='<p class="rp-copy">The development machine is unreachable. We are checking the original task and will synchronize its status after reconnection.</p><p class="rp-copy rp-caption">Execution status is uncertain. The task will not be started again.</p>';
+      action('Stop task',()=>change('cancelling'));
+    } else if(p==='cancelling') {
+      content.innerHTML='<p class="rp-copy">The stop request is recorded. Waiting for confirmation from the development machine.</p><p class="rp-copy rp-caption">'+(state.connected?'The task will show Stopped only after its processes are confirmed to have ended.':'The machine is still offline. We cannot confirm that the task has stopped yet.')+'</p>';
+    } else if(p==='cancelled') {
+      content.innerHTML='<p class="rp-copy">The development machine confirmed that the task stopped.</p><p class="rp-copy rp-caption">'+(write?'Stopping does not undo earlier edits. Check task details for partial changes.':'This was a read-only task. No project files were changed.')+'</p>';
+      action('View task details',()=>{state.details=true;render();save();});
+    } else if(p==='syncing') {
+      content.innerHTML='<p class="rp-copy">Execution has finished on the development machine. The result is still being synchronized.</p><p class="rp-copy rp-caption">The result will appear here when it arrives. No rerun is needed.</p>';
+    } else if(p==='writeApproval') {
+      content.innerHTML='<p class="rp-copy">Allow editing <code>README.md</code>?</p><dl class="rp-info"><dt>Change</dt><dd>Document APP_PORT in the startup instructions</dd><dt>Scope</dt><dd>Only this edit within Project A</dd></dl><details class="rp-detail"><summary class="cursor-interaction">View proposed change</summary><p>Add to the startup instructions:</p><p><code>Set APP_PORT before starting, for example to 3000.</code></p></details>';
+      action('Allow this edit',()=>change('writing'),true);action('Deny edit',()=>change('denied'));
+    } else if(p==='denied') {
+      content.innerHTML='<p class="rp-copy">'+(write?'This edit was denied. Files are unchanged.':'Remote analysis was not started. Files are unchanged.')+'</p>';
+    } else if(p==='failed') {
+      content.innerHTML='<p class="rp-copy">The native runtime could not complete the task.</p><p class="rp-copy rp-caption">Check task details to resolve the cause. The task will not automatically rerun or switch accounts.</p>';
+      action('View task details',()=>{state.details=true;render();save();});
+    } else if(p==='complete') {
+      content.innerHTML='<p class="rp-copy">'+(write?'Startup instructions were updated and the result was delivered.':'The analysis result was delivered. No files were changed.')+'</p>';
+      action(state.resultOpen?'Hide full result':'View full result',()=>{state.resultOpen=!state.resultOpen;render();save();},true);
+      const result=$('rp-result');result.hidden=false;
+      result.innerHTML='<p class="rp-agent-label">Project assistant · Result</p><p>'+(write?'README.md now explains the port configuration. Project startup has not been tested.':'The startup script requires APP_PORT, but the setup instructions omit it. Add the configuration, then verify startup.')+'</p><p class="rp-caption">'+(write?'Changed: 1 file · Startup test: not run':'Read: 3 files · Changed: none · Startup test: not run')+'</p>'+(state.resultOpen?'<div class="rp-file"><code>package.json</code><span>Identified the project startup entry point.</span></div><div class="rp-file"><code>src/config.ts</code><span>Startup reads APP_PORT and returns an error when it is missing.</span></div><div class="rp-file"><code>README.md</code><span>'+(write?'The port configuration step has been added.':'The setup instructions omit environment configuration.')+'</span></div>':'');
+    }
+    const job='task-demo-'+String(state.job).padStart(3,'0');
+    const started=!['ready','launchApproval'].includes(p)&&!(p==='denied'&&!write);
+    $('rp-details').hidden=!started;
+    $('rp-detail-content').innerHTML='<dl class="rp-info"><dt>Task</dt><dd><code>'+job+'</code></dd><dt>Directory</dt><dd><code>/workspace/project-a</code></dd><dt>Connection</dt><dd>'+(state.connected?'Online':'Offline')+'</dd><dt>File changes</dt><dd>'+(write?(p==='complete'?'README.md updated':p==='cancelled'?'Partial changes need review':p==='writing'?'Editing':'Not changed'):'Not allowed')+'</dd></dl><ul><li>The task is bound to the development machine and Project A.</li><li>'+(['offline','cancelling'].includes(p)?'Checking the same task and waiting for host confirmation.':'Status and results remain bound to the original conversation.')+'</li><li>'+(['complete','syncing'].includes(p)?'Execution has ended; result delivery is confirmed separately.':'Closing the page or losing the connection does not restart the task.')+'</li></ul>';
+    $('rp-details').open=state.details||view.detailsByDefault;
+    const note=$('rp-chat-note');note.hidden=!state.chat;
+    note.innerHTML=state.chat?'<div class="rp-user">'+escape(state.chat)+'</div><p>Got it. '+(['running','writing','offline','cancelling','syncing'].includes(p)?'The original task is still being tracked above.':'We can continue the conversation.')+'</p>':'';
+    const step=$('rp-step');
+    const stepNames={running:'Simulate execution finishing',writing:'Simulate execution finishing',offline:'Simulate reconnection',cancelling:state.connected?'Simulate stop confirmation':'Simulate reconnection',syncing:'Simulate result delivery'};
+    step.disabled=!stepNames[p];step.textContent=stepNames[p]||'Waiting for user action';
+    $('rp-sim-note').textContent='Demo state · '+job+(write?' · Writes are later scope':' · First increment: read-only');
+  }
+  $('rp-scenario').addEventListener('change',e=>preset(e.target.value));
+  $('rp-restart').addEventListener('click',()=>{state.job++;preset(state.scenario);});
+  $('rp-step').addEventListener('click',()=>{
+    if(state.phase==='offline'){state.connected=true;change('running');}
+    else if(state.phase==='cancelling'){if(!state.connected){state.connected=true;render();save();}else change('cancelled');}
+    else if(state.phase==='running'||state.phase==='writing')change('syncing');
+    else if(state.phase==='syncing')change('complete');
+  });
+  $('rp-compose').addEventListener('submit',e=>{e.preventDefault();const input=$('rp-message');const message=input.value.trim();$('rp-input-error').hidden=!!message;if(!message)return;state.chat=message.slice(0,500);input.value='';render();save();});
+  $('rp-details').addEventListener('toggle',()=>{const open=$('rp-details').open;if(state.details!==open){state.details=open;save();}});
+  restore(window.openai && window.openai.widgetState);render();
+  window.addEventListener('openai:set_globals',event=>{if(event.detail&&event.detail.globals&&event.detail.globals.widgetState){restore(event.detail.globals.widgetState);render();}});
+  if(globalThis.Tweak){const tweak=new Tweak({container:root.querySelector('.rp-task'),onChange:render});tweak.addToggle(view,'detailsByDefault',{label:'Expand task details by default'});}
+})();
+</script>
+
+</div></body></html>
